@@ -5,6 +5,11 @@ authors = ["Gaurav <gaurav.ssnl@gmail.com>"]
 edition = "2018"
 license = "MIT"
 description = "A TCP server for intercepting requests, modifying request headers, and replacing responses."
+readme = "README.md"
+repository = "https://github.com/gauravssnl/rserver"
+license-file = "LICENSE.txt"
+keywords = ["server", "socket", "TCP"]
+categories = ["web-programming::http-server", "command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
