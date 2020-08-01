@@ -7,7 +7,7 @@ license = "MIT"
 description = "A TCP server for intercepting requests, modifying request headers, and replacing responses."
 readme = "README.md"
 repository = "https://github.com/gauravssnl/rserver"
-license-file = "LICENSE.txt"
+license-file = "LICENSE"
 keywords = ["server", "socket", "TCP"]
 categories = ["web-programming::http-server", "command-line-utilities"]
 
