@@ -26,7 +26,7 @@ pub fn start_server(server_host: &str, server_port: u32) {
     loop {
         let (stream, socket_address) = listener.accept().unwrap();
         println!("Got new client whose address is {}", socket_address);
-        println!("stream: {:?}", stream);
+        println!("Stream: {:?}", stream);
         thread::spawn(|| handle_client(stream));
     }
 }
@@ -34,14 +34,20 @@ pub fn start_server(server_host: &str, server_port: u32) {
 /// Handle client stream and send the response
 fn handle_client(mut stream: TcpStream) {
     let (request_buff, request_len) = read_request(&mut stream);
-    let response = prepare_response(&request_buff, request_len);
+    // Added this line for verification of reading requests correctly
+    println!(
+        "request_buff lengeth: {}, request_len: {}",
+        request_buff.len(),
+        request_len
+    );
+    let response = prepare_response(&request_buff);
     write_response(stream, &request_buff, response);
 }
 
 /// Read the request data and return request data & request length
 fn read_request(stream: &mut TcpStream) -> (Vec<u8>, usize) {
     let buffer_size = 512;
-    let mut request_buff = vec![];
+    let mut request_buffer = vec![];
     // let us loop & try to read the whole request data
     let mut request_len = 0usize;
     loop {
@@ -49,17 +55,30 @@ fn read_request(stream: &mut TcpStream) -> (Vec<u8>, usize) {
         println!("Reading stream data");
         match stream.read(&mut buffer) {
             Ok(n) => {
-                println!("Top n:{}", n);
-                println!("buffer data now: {}", String::from_utf8_lossy(&buffer[..]));
+                // Added these lines for verification of reading requests correctly
+                println!("Number of bytes read from stream: {}", n);
+                println!(
+                    "Buffer data as of now: {}",
+                    String::from_utf8_lossy(&buffer[..])
+                );
                 if n == 0 {
+                    // Added these lines for verification of reading requests correctly
+                    println!("No bytes read");
                     break;
                 } else {
                     request_len += n;
-                    request_buff.append(&mut buffer);
+
                     // we need not read more data in case we have read less data than buffer size
                     if n < buffer_size {
+                        // let us only append the data how much we have read rather thann complete existing buffer data
+                        // as n is less than buffer size
+                        request_buffer.append(&mut buffer[..n].to_vec()); // convert slice into vec
+                                                                          // Added these lines for verification of reading requests correctly
                         println!("No Need to read more data");
                         break;
+                    } else {
+                        // append complete buffer vec data into request_buffer vec as n == buffer_size
+                        request_buffer.append(&mut buffer);
                     }
                 }
             }
@@ -68,15 +87,15 @@ fn read_request(stream: &mut TcpStream) -> (Vec<u8>, usize) {
                 break;
             }
         }
-        println!("loop stream read code ends here");
+        println!("Stream read loop code ends here");
     }
 
-    (request_buff, request_len)
+    (request_buffer, request_len)
 }
 
-/// Preapre the response string that has to be sent to the clients
-fn prepare_response(request_buffer: &[u8], request_length: usize) -> String {
-    println!("Request length: {}", request_length);
+/// Prepare the response string that has to be sent to the clients
+fn prepare_response(request_buffer: &[u8]) -> String {
+    println!("Request length: {}", request_buffer.len());
     println!("{} Request {}", "*".repeat(20), "*".repeat(20));
     let request_data = String::from_utf8_lossy(&request_buffer[..]);
     println!("{}", request_data);
@@ -89,7 +108,7 @@ fn prepare_response(request_buffer: &[u8], request_length: usize) -> String {
     <head><title>RServer</title></head>
     <body><div>Hello, world</div><div>Request Header: <br>{}</body></html>\r\n\r\n",
             // the buffer might have less data than its size as of now
-            String::from_utf8_lossy(&request_buffer[..request_length])
+            String::from_utf8_lossy(&request_buffer)
         ),
     );
     let response = format!("{}{}", status_line, contents);
@@ -97,7 +116,7 @@ fn prepare_response(request_buffer: &[u8], request_length: usize) -> String {
     response
 }
 
-/// Write response to client stream
+/// Write response to the client stream
 fn write_response(mut stream: TcpStream, request_buffer: &[u8], response: String) {
     // let us simulate Delay to test multi-threading
     if request_buffer.starts_with(b"GET /sleep HTTP/1.1\r\n") {
