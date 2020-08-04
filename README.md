@@ -7,6 +7,10 @@ A library for intercepting/sniffing TCP requests, modify headers and responses.
 
 How to use the RServer  to intercept/sniff TCP requests.
 
+Let us consider that we want to run RServer at localhost address "127.0.0.1" and port 80.
+
+Please set the browser/system proxy as host 127.0.0.1 aand port 80 to use Rserver.
+
 ```rust
 use rserver;
 
@@ -17,29 +21,34 @@ fn main() {
 
 ```
 
-How to read the request data and return request data & request length
+How to read the stream data and return stream data & its length.
+
 ```rust
-fn read_request(stream: &mut TcpStream) -> (Vec<u8>, usize) {
+/// Read the stream data and return stream data & its length
+fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
     let buffer_size = 512;
-    let mut request_buff = vec![];
+    let mut request_buffer = vec![];
     // let us loop & try to read the whole request data
     let mut request_len = 0usize;
     loop {
         let mut buffer = vec![0; buffer_size];
-        println!("Reading stream data");
         match stream.read(&mut buffer) {
             Ok(n) => {
-                println!("Top n:{}", n);
-                println!("buffer data now: {}", String::from_utf8_lossy(&buffer[..]));
+               
                 if n == 0 {
                     break;
                 } else {
                     request_len += n;
-                    request_buff.append(&mut buffer);
+
                     // we need not read more data in case we have read less data than buffer size
                     if n < buffer_size {
-                        println!("No Need to read more data");
+                        // let us only append the data how much we have read rather thann complete existing buffer data
+                        // as n is less than buffer size
+                        request_buffer.append(&mut buffer[..n].to_vec()); // convert slice into vec
                         break;
+                    } else {
+                        // append complete buffer vec data into request_buffer vec as n == buffer_size
+                        request_buffer.append(&mut buffer);
                     }
                 }
             }
@@ -48,9 +57,17 @@ fn read_request(stream: &mut TcpStream) -> (Vec<u8>, usize) {
                 break;
             }
         }
-        println!("loop stream read code ends here");
     }
 
-    (request_buff, request_len)
+    (request_buffer, request_len)
 }
-``
+
+```
+Note : Currently : Connection to online hosts are working fine with GET requests only. CONNECT requests respose reading has some issue that needs to be fixed.
+
+To-Do
+
+- [ ] Fix CONNECT Method Response Reading
+- [ ] Modifying/replacing Request Headers
+- [ ] Modifying/replacing Reponse Headers 
+
