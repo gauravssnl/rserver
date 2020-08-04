@@ -1,7 +1,7 @@
 # RServer
 
 
-A library for intercepting/sniffing TCP requests, modify headers and responses.
+A library for intercepting/sniffing TCP requests, modifying headers and responses.
 
 # Example
 
