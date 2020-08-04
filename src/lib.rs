@@ -1,6 +1,6 @@
 //! # RServer
 //!
-//! A library for intercepting/sniffing TCP requests, modify headers and responses.
+//! A library/app for intercepting/sniffing TCP requests, modifying headers and responses.
 
 use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
