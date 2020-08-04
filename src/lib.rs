@@ -6,7 +6,7 @@ use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
 use std::thread;
 
-/// Start server at the given host and port which will handle requests recieved from clients/apps
+/// Start server at the given host and port which will handle requests recieved from clients/apps.
 ///
 /// Example
 ///
@@ -31,7 +31,7 @@ pub fn start_server(server_host: &str, server_port: u32) {
     }
 }
 
-/// Handle client stream and send the response
+/// Handle client stream and send the response.
 fn handle_client(mut stream: TcpStream) {
     let (mut request_buff, _request_len) = read_stream(&mut stream);
     // Added this line for verification of reading requests correctly
@@ -52,7 +52,7 @@ fn handle_client(mut stream: TcpStream) {
     // write_response(stream, &request_buff, response);
 }
 
-/// Read the request data and return request data & request length
+/// Read the stream data and return stream data & its length.
 fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
     let buffer_size = 512;
     let mut request_buffer = vec![];
@@ -101,7 +101,7 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
     (request_buffer, request_len)
 }
 
-/// Prepare the response string that has to be sent to the clients
+/// Prepare the response string that has to be sent to the clients.
 fn prepare_response(request_buffer: &[u8]) -> String {
     println!("{} Response for client {}", "*".repeat(20), "*".repeat(20));
     let (status_line, contents) = (
@@ -120,7 +120,7 @@ fn prepare_response(request_buffer: &[u8]) -> String {
     response
 }
 
-/// Write response to the client stream
+/// Write response to the localhost client stream.
 fn _write_response_for_localhost(mut stream: &TcpStream, request_buffer: &[u8], response: String) {
     // let us simulate Delay to test multi-threading
     if request_buffer.starts_with(b"GET /sleep HTTP/1.1\r\n") {
@@ -133,8 +133,8 @@ fn _write_response_for_localhost(mut stream: &TcpStream, request_buffer: &[u8], 
     println!("{}", "*".repeat(50));
 }
 
-/// Parse request buffer data to fetch Request Method, Host, Host Port, Request Path and  HTTP Version
-/// return  (method, host, host_port, path, version)
+/// Parse request buffer data to fetch Request Method, Host, Host Port, Request Path and  HTTP Version.
+/// Return  (method, host, host_port, path, version) .
 fn parse_request(request_buffer: &[u8]) -> (String, String, String, String, String) {
     // println!("Request length: {}", request_buffer.len());
     println!("{} Request {}", "*".repeat(20), "*".repeat(20));
@@ -186,7 +186,7 @@ fn parse_request(request_buffer: &[u8]) -> (String, String, String, String, Stri
     (method, host, host_port, path, version)
 }
 
-/// Send request to actual host
+/// Send request to actual host.
 fn send_request_and_get_response(
     method: String,
     host: String,
@@ -218,7 +218,7 @@ fn send_request_and_get_response(
     (response_vec, response_len)
 }
 
-/// write response to the local client stream
+/// Write response to the local client stream.
 fn write_response(
     mut stream: TcpStream,
     method: String,
