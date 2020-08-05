@@ -78,7 +78,7 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
 
                     // we need not read more data in case we have read less data than buffer size
                     if n < buffer_size {
-                        // let us only append the data how much we have read rather thann complete existing buffer data
+                        // let us only append the data how much we have read rather than complete existing buffer data
                         // as n is less than buffer size
                         request_buffer.append(&mut buffer[..n].to_vec()); // convert slice into vec
                                                                           // Added these lines for verification of reading requests correctly
@@ -210,7 +210,7 @@ fn send_request_and_get_response(
     println!("Data sent to the actual host succeffully");
     println!("Trying to read response from actual server");
     let (response_vec, response_len) = read_stream(&mut stream);
-    println!("Reading response from actual server complted");
+    println!("Reading response from actual server completed");
     // println!("response_len: {}", response_len);
     // println!("response_vec: {:?}", response_vec);
     println!("{} Response {}", "*".repeat(20), "*".repeat(20));

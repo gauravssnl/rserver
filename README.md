@@ -21,6 +21,8 @@ fn main() {
 
 ```
 
+![ScreenShot] (https://github.com/gauravssnl/rserver/blob/master/media/images/rserver_initial.PNG)
+
 How to read the stream data and return stream data & its length.
 
 ```rust
@@ -42,7 +44,7 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
 
                     // we need not read more data in case we have read less data than buffer size
                     if n < buffer_size {
-                        // let us only append the data how much we have read rather thann complete existing buffer data
+                        // let us only append the data how much we have read rather than complete existing buffer data
                         // as n is less than buffer size
                         request_buffer.append(&mut buffer[..n].to_vec()); // convert slice into vec
                         break;
