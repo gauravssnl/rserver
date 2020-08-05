@@ -111,7 +111,6 @@ fn prepare_response(request_buffer: &[u8]) -> String {
     <html>
     <head><title>RServer</title></head>
     <body><div>Hello, world</div><div>Request Header: <br>{}</body></html>\r\n\r\n",
-            // the buffer might have less data than its size as of now
             String::from_utf8_lossy(&request_buffer)
         ),
     );
