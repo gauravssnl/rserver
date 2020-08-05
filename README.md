@@ -21,7 +21,7 @@ fn main() {
 
 ```
 
-![ScreenShot] (https://github.com/gauravssnl/rserver/blob/master/media/images/rserver_initial.PNG)
+![ScreenShot]( https://github.com/gauravssnl/rserver/blob/master/media/images/rserver_initial.PNG )
 
 How to read the stream data and return stream data & its length.
 
