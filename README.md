@@ -20,8 +20,11 @@ fn main() {
 }
 
 ```
+# ScreenShot
 
 ![ScreenShot]( https://github.com/gauravssnl/rserver/blob/master/media/images/rserver_initial.PNG )
+
+# Internal API
 
 How to read the stream data and return stream data & its length.
 
@@ -65,6 +68,8 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
 }
 
 ```
+# 
+
 Note : Currently : Connection to online hosts are working fine with GET requests only. CONNECT requests respose reading has some issue that needs to be fixed.
 
 To-Do
