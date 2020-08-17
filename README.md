@@ -3,13 +3,29 @@
 
 A library/app for intercepting/sniffing TCP requests, modifying headers and responses.
 
+# Install
+To Install RServer, Please use the following command :
+
+```shell
+cargo install rserver
+```
+
 # Example
 
 How to use the RServer  to intercept/sniff TCP requests.
 
-Let us consider that we want to run RServer at localhost address "127.0.0.1" and port 80.
+Let us consider that we want to run RServer at localhost address "127.0.0.1" and port 80. To run RServer, use the folowing command :
 
-Please set the browser/system proxy as host 127.0.0.1 aand port 80 to use Rserver.
+```shell
+rserver 127.0.0.1 80
+```
+
+Please set the browser/system proxy as host 127.0.0.1 and port 80 to use Rserver for intercepting all requests.
+
+If you directly want to test RServer installation without doing the above step, please open this URL in Web Browser :
+http://127.0.0.1/ and you should see HTTP Headers sent by the Browser in that page.
+
+####  To use rsever  Rust library , please see the below example :
 
 ```rust
 use rserver;
