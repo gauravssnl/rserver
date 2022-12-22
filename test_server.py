@@ -2,10 +2,10 @@ import socket
 
 def test():
     s = socket.socket()
-    server_address = ("127.0.0.1", 80)
+    server_address = ("127.0.0.1", 8081)
     s.connect(server_address)
     print("Connected to the server")
-    request = "GET /test HTTP/1.1\r\n\r\n"
+    request = "GET / HTTP/1.1\r\nHost:google.com\r\n\r\n"
     print("Sending request to server:\n", request)
     s.sendall(request.encode())
     print("Request sent successfullly")
