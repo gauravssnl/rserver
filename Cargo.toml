@@ -1,6 +1,6 @@
 [package]
 name = "rserver"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Gaurav <gaurav.ssnl@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -13,3 +13,6 @@ categories = ["web-programming::http-server", "command-line-utilities"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+futures = "0.3.24"
+tokio = { version = "1.21.0", features = ["full"] }
+urlparse = "0.7.3"
