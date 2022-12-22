@@ -1,7 +1,7 @@
 # RServer
 
 
-A library/app for intercepting/sniffing TCP requests, modifying headers and responses.
+A asynchronous library/app for intercepting/sniffing TCP requests, modifying headers and responses.
 
 # Install
 To Install RServer, Please use the following command :
@@ -12,33 +12,39 @@ cargo install rserver
 
 # Example
 
-How to use the RServer  to intercept/sniff TCP requests.
+How to use the RServer to intercept/sniff TCP requests. RServer currently runs on 8081 port by default.
 
-Let us consider that we want to run RServer at localhost address "127.0.0.1" and port 80. To run RServer, use the folowing command :
+To run RServer, use the folowing command :
 
 ```shell
-rserver 127.0.0.1 80
+rserver
 ```
 
-Please set the browser/system proxy as host 127.0.0.1 and port 80 to use Rserver for intercepting all requests.
+Please set the browser/system proxy as host 127.0.0.1 and port 8081 (default port of RServer) to use Rserver for intercepting all requests.
 
-If you directly want to test RServer installation without doing the above step, please open this URL in Web Browser :
-http://127.0.0.1/ and you should see HTTP Headers sent by the Browser in that page.
+If you directly want to test RServer installation without doing the above step, please run the below command :
+```shell
+https_proxy=127.0.0.1:8081 curl https://www.google.com
+```
 
 ####  To use rsever  Rust library , please see the below example :
 
 ```rust
-use rserver;
+use rserver::config::Config;
 
-fn main() {
-    let (server_host, server_port) = ("127.0.0.1", 80);
-    rserver::start_server(server_host, server_port);
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let config = Config::default();
+    rserver::start_server(&config).await
 }
 
 ```
-# ScreenShot
 
-![ScreenShot]( https://github.com/gauravssnl/rserver/blob/master/media/images/rserver_initial.PNG )
+# Changelog
+- Asynchronous server.
+- Add HTTPS / CONNECT method support.
+- Minor bug fixes & other improvements.
+- Modular code
 
 # Internal API
 
@@ -86,11 +92,9 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
 ```
 # 
 
-Note : Currently : Connection to online hosts are working fine with GET requests only. CONNECT requests respose reading has some issue that needs to be fixed.
 
 To-Do
-
-- [ ] Fix CONNECT Method Response Reading
+- [] Add command line flags for server config
 - [ ] Modifying/replacing Request Headers
 - [ ] Modifying/replacing Reponse Headers 
 
