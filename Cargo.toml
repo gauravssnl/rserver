@@ -1,10 +1,10 @@
 [package]
 name = "rserver"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Gaurav <gaurav.ssnl@gmail.com>"]
 edition = "2018"
 license = "MIT"
-description = "A TCP server for intercepting requests, modifying request headers, and replacing responses."
+description = "Asynchronous TCP server for intercepting requests, modifying request headers, and replacing responses."
 readme = "README.md"
 repository = "https://github.com/gauravssnl/rserver"
 keywords = ["server", "socket", "TCP"]
@@ -16,3 +16,4 @@ categories = ["web-programming::http-server", "command-line-utilities"]
 futures = "0.3.24"
 tokio = { version = "1.21.0", features = ["full"] }
 urlparse = "0.7.3"
+structopt = { version = "0.3", default-features = false }
