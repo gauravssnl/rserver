@@ -12,7 +12,7 @@ cargo install rserver
 
 # Example
 
-How to use the RServer to intercept/sniff TCP requests. RServer currently runs on 8081 port by default.
+How to use the RServer to intercept/sniff TCP requests. RServer currently runs on 8080 port by default.
 
 To run RServer, use the folowing command :
 
@@ -20,22 +20,39 @@ To run RServer, use the folowing command :
 rserver
 ```
 
-Please set the browser/system proxy as host 127.0.0.1 and port 8081 (default port of RServer) to use Rserver for intercepting all requests.
+Please set the browser/system proxy as host 127.0.0.1 and port 8080 (default port of RServer) to use Rserver for intercepting all requests.
 
 If you directly want to test RServer installation without doing the above step, please run the below command :
 ```shell
-https_proxy=127.0.0.1:8081 curl https://www.google.com
+https_proxy=127.0.0.1:8080 curl https://www.google.com
 ```
+
+# Usage
+
+    rserver [OPTIONS]
+
+    FLAGS:
+        --help       Prints help information
+    -V, --version    Prints version information
+    
+    OPTIONS:
+        --enable-proxy <enable-proxy>    Enable proxy flag [default: false]
+    -h, --host <host>                    Server host [default: 127.0.0.1]
+    -p, --port <port>                    Server port [default: 8080]
+        --proxy-host <proxy-host>        Proxy host
+        --proxy-port <proxy-port>        Proxy port
 
 ####  To use rsever  Rust library , please see the below example :
 
 ```rust
-use rserver::config::Config;
+use rserver::Config;
+use rserver::Server;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = Config::default();
-    rserver::start_server(&config).await
+    let server = Server::new(config);
+    server.start().await
 }
 
 ```
@@ -94,7 +111,7 @@ fn read_stream(stream: &mut TcpStream) -> (Vec<u8>, usize) {
 
 
 To-Do
-- [] Add command line flags for server config
+
 - [ ] Modifying/replacing Request Headers
 - [ ] Modifying/replacing Reponse Headers 
 
