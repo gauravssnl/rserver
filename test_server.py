@@ -2,7 +2,7 @@ import socket
 
 def test():
     s = socket.socket()
-    server_address = ("127.0.0.1", 8081)
+    server_address = ("127.0.0.1", 8080)
     s.connect(server_address)
     print("Connected to the server")
     request = "GET / HTTP/1.1\r\nHost:google.com\r\n\r\n"

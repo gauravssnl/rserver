@@ -32,7 +32,7 @@ impl Default for Config {
     fn default() -> Self {
         Self {
             host: String::from("127.0.0.1"),
-            port: 8081,
+            port: 8080,
             enable_proxy: false,
             proxy_host: String::default(),
             proxy_port: i32::default(),
