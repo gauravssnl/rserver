@@ -19,13 +19,14 @@ impl Server {
     ///
     /// Example
     /// ```no_run
-    /// use rserver::config::Config;
+    /// use rserver::Config;
     /// use rserver::Server;
     ///
     /// #[tokio::main]
     /// async fn main() -> Result<(), Box<dyn std::error::Error>> {
     ///     let config = Config::default();
-    ///     rserver::Server::start_server(&config).await
+    ///     let server = Server::new(config);
+    ///     server.start().await
     /// }
     /// ```
     pub async fn start(self) -> Result<(), Box<dyn std::error::Error>> {
