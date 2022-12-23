@@ -1,3 +1,7 @@
+use crate::CliOption;
+
+/// RServer's Config struct.
+#[derive(Debug, Clone)]
 pub struct Config {
     pub host: String,
     pub port: i32,
@@ -7,7 +11,7 @@ pub struct Config {
 }
 
 impl Config {
-    fn new(
+    pub fn new(
         host: String,
         port: i32,
         enable_proxy: bool,
@@ -32,6 +36,24 @@ impl Default for Config {
             enable_proxy: false,
             proxy_host: String::default(),
             proxy_port: i32::default(),
+        }
+    }
+}
+
+impl From<CliOption> for Config {
+    fn from(cli_option: CliOption) -> Self {
+        Self {
+            host: cli_option.host,
+            port: cli_option.port,
+            enable_proxy: matches!(cli_option.enable_proxy.as_str(), "true"),
+            proxy_host: match cli_option.proxy_host {
+                Some(p) => p,
+                _ => String::default(),
+            },
+            proxy_port: match cli_option.proxy_port {
+                Some(p) => p,
+                _ => i32::default(),
+            },
         }
     }
 }
