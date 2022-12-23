@@ -7,6 +7,7 @@ pub enum Body {
     Empty,
 }
 
+/// RServer's Request struct.
 #[derive(Debug)]
 pub struct Request {
     pub method: String,
